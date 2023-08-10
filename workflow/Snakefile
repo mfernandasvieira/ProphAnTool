@@ -1,0 +1,41 @@
+from snakemake.utils import min_version
+
+##### set minimum snakemake version #####
+min_version("6.4.1")
+
+##### setup singularity #####
+# this container defines the underlying OS for each job when using the workflow
+# with --use-conda --use-singularity
+container: "docker://continuumio/miniconda3"
+
+##### load rules #####
+include: "rules/common.smk"
+include: "rules/list_files.smk"
+#include: "rules/extract_info_summary.smk"
+#include: "rules/filter_fasta.smk"
+#include: "rules/extract_info_detail.smk"
+#include: "rules/extract_info_fasta.smk"
+#include: "rules/create_fasta_intact.smk"
+#include: "rules/recognizer.smk"
+include: "rules/cog_extraction.smk"
+
+#include: "rules/taxonomy_class.smk"
+
+##### target rules #####
+rule all:
+    input:
+        f"{sys.path[0]}/../../results/subdirectories.txt",   # common rule
+        #f"{sys.path[0]}/../../results/result_dict.csv",      # extract_info_summary
+        #f"{sys.path[0]}/../../results/prophages_frequency.png",   # extract_info_summary
+        #f"{sys.path[0]}/../../results/prophages.json",          # extract_info_summary
+        #f"{sys.path[0]}/../../results/distribution_plots.png",      # extract_info_summary
+        #f"{sys.path[0]}/../../results/dna_fasta.fasta",        # create_fasta_intact
+        #f"{sys.path[0]}/../../results/df_att.csv",
+        #f"{sys.path[0]}/../../results/fasta_filter.fasta",
+
+        #dynamic('phastest_results/{folder_name_1}/fasta_regions/{region}/{seq_rec_1}.fasta'),
+        #dynamic('phastest_results/{folder_name_2}/CDS/{seq_rec_2}.fasta'),
+        #dynamic('phastest_results/{folder_name_3}/CDS/recognizer_output_{fasta_number}/reCOGnizer_results.xlsx')
+        f"{sys.path[0]}/../../results/cog_extraction.csv"
+
+

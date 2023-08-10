@@ -1,0 +1,23 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count    min threads    max threads
+---------------  -------  -------------  -------------
+all                    1              1              1
+process_summary        1              1              1
+total                  2              1              1
+
+Select jobs to execute...
+
+[Fri Aug  4 10:40:37 2023]
+rule process_summary:
+    output: /home/fernanda/prophages/prophage_analysis/workflow/rules/../../results/result_dict.csv, /home/fernanda/prophages/prophage_analysis/workflow/rules/../../results/prophages_frequency.png, /home/fernanda/prophages/prophage_analysis/workflow/rules/../../results/prophages.json
+    jobid: 2
+    reason: Missing output files: /home/fernanda/prophages/prophage_analysis/workflow/rules/../../results/prophages_frequency.png, /home/fernanda/prophages/prophage_analysis/workflow/rules/../../results/result_dict.csv, /home/fernanda/prophages/prophage_analysis/workflow/rules/../../results/prophages.json
+    resources: tmpdir=/tmp
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-08-04T104037.160651.snakemake.log
