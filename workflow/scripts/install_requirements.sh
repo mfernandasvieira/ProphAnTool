@@ -1,25 +1,26 @@
-# sudo apt-get install unzip
-conda_dir=$(conda info --base)
+#!/bin/bash
 
-#git clone https://github.com/KennthShang/PhaBOX.git
-#cd PhaBOX
-#conda env create -f webserver.yml -n phabox
+if [ -f "requirements_met.flag" ]; then
+    echo "Requirements are already met. Skipping execution."
+    exit 0
+fi
 
-# database
-fileid="1hjACPsIOqqcS5emGaduYvYrCzrIpt2_9"
-filename="phagesuite_database.zip"
-html=`curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${fileid}"`
-curl -Lb ./cookie "https://drive.google.com/uc?export=download&`echo ${html}|grep -Po '(confirm=[a-zA-Z0-9\-_]+)'`&id=${fileid}" -o ${filename}
+if [ ! -d "PHABOX" ]; then
+    git clone https://github.com/KennthShang/PhaBOX.git
+fi
 
-# initial files
-fileid="1E94ii3Q0O8ZBm7UsyDT_n06YekNtfV20"
-filename="phagesuite_parameters.zip"
-html=`curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${fileid}"`
-curl -Lb ./cookie "https://drive.google.com/uc?export=download&`echo ${html}|grep -Po '(confirm=[a-zA-Z0-9\-_]+)'`&id=${fileid}" -o ${filename}
+pip install gdown
+gdown  --id 1hjACPsIOqqcS5emGaduYvYrCzrIpt2_9
+
+gdown  --id 1E94ii3Q0O8ZBm7UsyDT_n06YekNtfV20
 
 unzip phagesuite_database.zip  > /dev/null
 unzip phagesuite_parameters.zip  > /dev/null
 
-# move the script to where the conda located
-cp blastxml_to_tabular.py {conda_dir}/envs/phabox/bin/blastxml_to_tabular.py
-chmod 777 {conda_dir}/envs/phabox/bin/blastxml_to_tabular.py
+
+if [ -n "$CONDA_PREFIX" ]; then
+    cp PhaBOX/blastxml_to_tabular.py "$CONDA_PREFIX/bin/"
+    chmod 777 "$CONDA_PREFIX/bin/blastxml_to_tabular.py"
+fi
+
+touch requirements_met.flag

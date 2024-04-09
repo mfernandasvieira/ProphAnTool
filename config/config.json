@@ -1,17 +1,13 @@
-{"input_dir":  "phastest_results",
-  "version": "2.0.0",
-  "output": "output",
+{"output": "results",
   "resources_directory": "resources_directory",
   "threads": 15,
   "download_cdd_resources": true,
   "recognizer_databases": [
-    "CDD",
-    "Pfam",
-    "NCBIfam",
-    "Protein_Clusters",
-    "Smart",
-    "TIGRFAM",
-    "COG",
-    "KOG"
+    "COG"
+  ],
+  "abricate_databases": [
+    "card",
+    "resfinder",
+    "vfdb"
   ]
 }

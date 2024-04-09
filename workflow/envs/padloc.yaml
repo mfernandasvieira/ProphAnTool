@@ -1,0 +1,6 @@
+name: ABRicate
+channels:
+  - conda-forge
+  - padlocbio
+dependencies:
+  - padloc=2.0.0

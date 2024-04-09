@@ -9,33 +9,32 @@ min_version("6.4.1")
 container: "docker://continuumio/miniconda3"
 
 ##### load rules #####
-include: "rules/common.smk"
-include: "rules/list_files.smk"
 #include: "rules/extract_info_summary.smk"
-#include: "rules/filter_fasta.smk"
+#include: "rules/create_fasta_filter_intact.smk"
 #include: "rules/extract_info_detail.smk"
-#include: "rules/extract_info_fasta.smk"
-#include: "rules/create_fasta_intact.smk"
 #include: "rules/recognizer.smk"
-include: "rules/cog_extraction.smk"
-
-#include: "rules/taxonomy_class.smk"
+include: "rules/abricate.smk"
+#include: "rules/taxonomy_classification.smk"
+#include: "rules/defense_systems.smk"
+#include: "rules/homology_extract.smk"
 
 ##### target rules #####
 rule all:
     input:
-        f"{sys.path[0]}/../../results/subdirectories.txt",   # common rule
-        #f"{sys.path[0]}/../../results/result_dict.csv",      # extract_info_summary
-        #f"{sys.path[0]}/../../results/prophages_frequency.png",   # extract_info_summary
-        #f"{sys.path[0]}/../../results/prophages.json",          # extract_info_summary
-        #f"{sys.path[0]}/../../results/distribution_plots.png",      # extract_info_summary
-        #f"{sys.path[0]}/../../results/dna_fasta.fasta",        # create_fasta_intact
-        #f"{sys.path[0]}/../../results/df_att.csv",
-        #f"{sys.path[0]}/../../results/fasta_filter.fasta",
-
-        #dynamic('phastest_results/{folder_name_1}/fasta_regions/{region}/{seq_rec_1}.fasta'),
-        #dynamic('phastest_results/{folder_name_2}/CDS/{seq_rec_2}.fasta'),
-        #dynamic('phastest_results/{folder_name_3}/CDS/recognizer_output_{fasta_number}/reCOGnizer_results.xlsx')
-        f"{sys.path[0]}/../../results/cog_extraction.csv"
-
-
+        #f"{sys.path[0]}/../../results/result_dict.csv", #extract_info_summary
+        #f"{sys.path[0]}/../../results/prophages_frequency.png", #extract_info_summary
+        #f"{sys.path[0]}/../../results/distribution_plots.png", #extract_info_summary
+        #f"{sys.path[0]}/../../results/prophages.json", #extract_info_summary
+        #f"{sys.path[0]}/../../results/radar_chart.png",          #extract_info_summary
+        #f"{sys.path[0]}/../../results/fasta_cds_recognizer.fasta",  #extract_info_detail
+        #directory(f"{sys.path[0]}/../../results/output_recognizer"),  #recognizer
+        #f"{sys.path[0]}/../../results/df_att.csv",    #create_fasta_filter_intact
+        #f"{sys.path[0]}/../../results/fasta_filter.fasta",   #create_fasta_filter_intact
+        expand("results/{database}.tab", database=["vfdb", "card", "resfinder"]),
+        f"{sys.path[0]}/../../results/abricate_summary.tab",         #abricate
+        f"{sys.path[0]}/../../results/heatmap_virulence.png",        #abricate
+        #f"{sys.path[0]}/../../results/taxonomy_class/out/phagcn_prediction.csv",    #taxonomic_classification
+        #f"{sys.path[0]}/../../results/taxonomy_plot.png",      #taxonomic_classification
+        #directory(f"{sys.path[0]}/../../results/padloc_results"),   #defense_systems
+        #f"{sys.path[0]}/../../results/defense_systems.png",    #defense_systems
+        #f"{sys.path[0]}/../../results/homology_extraction.csv"
