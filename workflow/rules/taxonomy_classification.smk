@@ -1,6 +1,9 @@
 import matplotlib
 import pandas as pd
 
+import warnings
+warnings.filterwarnings("ignore")
+
 matplotlib.use('Agg')  # Use the Agg backend
 import matplotlib.pyplot as plt
 

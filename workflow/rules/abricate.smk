@@ -3,6 +3,8 @@ import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
+import warnings
+warnings.filterwarnings("ignore")
 
 rule create_tab_abricate:
     input:
@@ -45,7 +47,8 @@ rule create_plot_abricate:
         vfdb = f"{sys.path[0]}/../../results/vfdb.tab"
 
     output:
-        f"{sys.path[0]}/../../results/heatmap_virulence.png"
+        f"{sys.path[0]}/../../results/heatmap_virulence.png",
+        f"{sys.path[0]}/../../results/dataframe_args.csv"
 
     run:
         card = pd.read_csv(input.card,sep='\t')
@@ -72,7 +75,7 @@ rule create_plot_abricate:
         df.iloc[:, 1:] = df.iloc[:, 1:].fillna(0).astype(int)
         df = df.set_index('Folder')
         df = df.astype(int)
-        df.to_csv('dataframe.csv')
+        df.to_csv(output[1])
         #custom_labels = ["Strain{}".format(i) for i in range(1, len(df) + 1)]
         #df.index = custom_labels
 

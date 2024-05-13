@@ -15,6 +15,9 @@ from matplotlib.spines import Spine
 from matplotlib.transforms import Affine2D
 from glob import glob
 
+import warnings
+warnings.filterwarnings("ignore")
+
 
 rule process_summary:
     input:
@@ -104,7 +107,8 @@ rule process_summary:
         # Create distribution plot
         df_to_save["Bact_genome_size"] = df_to_save["Bact_genome_size"].astype(int)
         print(df_to_save.dtypes)
-        df_to_save = df_to_save[df_to_save["Bact_genome_size"] < 1000000]
+        print(df_to_save)
+        df_to_save = df_to_save[df_to_save["Bact_genome_size"] > 1000000]
         print(df_to_save)
 
         intact = df_to_save['Intact'].to_list()
@@ -122,19 +126,19 @@ rule process_summary:
         fig, axes = plt.subplots(nrows=1,ncols=3,figsize=(12, 4))
         axes[0].errorbar(grouped_data.index,grouped_data['Total_prophages'],yerr=error[
             'Total_prophages'],fmt='D',color="black",capsize=3,markersize=5,markeredgecolor='black',markeredgewidth=1)
-        axes[0].set_xlabel('Plasmid sequence size (Mb)')     #Plasmid sequence size
+        axes[0].set_xlabel('Bacterial genome size (Mb)')     #Plasmid sequence size
         axes[0].set_ylabel('Average number of prophages')
         axes[0].spines[['right', 'top']].set_visible(False)
 
         axes[1].errorbar(grouped_data.index,grouped_data['Intact'],yerr=error[
             'Intact'],label='Intact',fmt='D',color="black",capsize=3,markersize=5,markeredgecolor='black',markeredgewidth=1)
-        axes[1].set_xlabel('Plasmid sequence size (Mb)')
+        axes[1].set_xlabel('Bacterial genome size (Mb)')
         axes[1].set_ylabel('Average number of intact prophages')
         axes[1].spines[['right', 'top']].set_visible(False)
 
         axes[2].errorbar(grouped_data.index,grouped_data['Defective'],yerr=error[
             'Defective'],label='Defective',fmt='D',color="black",capsize=3,markersize=5,markeredgecolor='black',markeredgewidth=1)
-        axes[2].set_xlabel('Plasmid sequence size (Mb)')
+        axes[2].set_xlabel('Bacterial genome size (Mb)')
         axes[2].set_ylabel('Average number of defective prophages')
         axes[2].spines[['right', 'top']].set_visible(False)
 
@@ -261,10 +265,20 @@ rule plot_radar_chart:
         df = df[df["Bact_genome_size"] > 1000000]
         print(df)
         df['Defective'] = df['Incomplete'] + df['Questionable']
-        defective_more_than_one = df[df["Defective"] > 1]["Defective"].sum() / df["Total_prophages"].sum()
-        intact_more_than_one = df[df["Intact"] > 1]["Intact"].sum() / df["Total_prophages"].sum()
-        defective_prophages = df["Defective"].sum() / df["Total_prophages"].sum()
-        intact_prophages = df["Intact"].sum() / df["Total_prophages"].sum()
+        df.to_csv('test_dataframe.csv')
+
+        defective_more_than_one = len(df[df["Defective"] > 1]) / df.shape[0]
+        print('total:',df.shape[0])
+        print('defective_more_than_one', len(df[df["Defective"] > 1]))
+
+        intact_more_than_one =len(df[df["Intact"] > 1]) / df.shape[0]
+        print('intact_more_than_one',len(df[df["Intact"] > 1]))
+
+        defective_prophages = len(df[df["Defective"] > 0]) / df.shape[0]
+        print('defective_prophages', len(df[df["Defective"] > 0]))
+
+        intact_prophages = len(df[df["Intact"] > 0]) / df.shape[0]
+        print('intact_prophages',len(df[df["Intact"] > 0]))
 
         total_strains = len(df)
         strains_with_no_prophages = len(df[(df['Intact'] == 0) &

@@ -1,5 +1,9 @@
 import pandas as pd
 from glob import glob
+import re
+
+import warnings
+warnings.filterwarnings("ignore")
 
 rule homology_extract:
     input:
@@ -39,10 +43,21 @@ rule homology_extract:
 
                         # Filter rows where COMPLETENESS(score) starts with 'intact'
                         intact_rows = df[df['COMPLETENESS(score)'].str.startswith('intact')]
-                        # Create a new DataFrame with desired columns
-                        selected_columns = intact_rows[['REGION', 'COMPLETENESS(score)', 'MOST_COMMON_PHAGE_NAME(hit_genes_count)']]
-                        selected_columns.insert(0,'FOLDER_NAME',folder_name)
-                        all_data.append(selected_columns)
+
+                        # Split 'MOST_COMMON_PHAGE_NAME(hit_genes_count)' column based on commas
+                        split_columns = intact_rows[
+                            'MOST_COMMON_PHAGE_NAME(hit_genes_count)'].str.split(',',expand=True).apply(lambda x: x.map(lambda y: re.search(r'_(.*?)_(.*?)_NC_',y).group(2) if isinstance(y,str) else None))
+                        selected_columns = intact_rows[
+                            ['REGION', 'COMPLETENESS(score)', 'MOST_COMMON_PHAGE_NAME(hit_genes_count)']]
+
+                        # Concatenate the selected columns with the split columns
+                        combined_columns = pd.concat([selected_columns, split_columns],axis=1)
+
+                        # Add a new column for folder name
+                        combined_columns.insert(0,'FOLDER_NAME',folder_name)
+
+                        all_data.append(combined_columns)
 
         combined_df = pd.concat(all_data, ignore_index=True)
+
         combined_df.to_csv(output[0])

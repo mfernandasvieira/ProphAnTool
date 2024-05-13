@@ -1,0 +1,13 @@
+{"output": "results",
+  "resources_directory": "resources_directory",
+  "threads": 15,
+  "download_cdd_resources": true,
+  "recognizer_databases": [
+    "COG"
+  ],
+  "abricate_databases": [
+    "card",
+    "resfinder",
+    "vfdb"
+  ]
+}

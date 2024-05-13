@@ -2,6 +2,9 @@ import json
 from glob import glob
 import pandas as pd
 
+import warnings
+warnings.filterwarnings("ignore")
+
 rule process_detail:
     input:
         prophages = f"{sys.path[0]}/../../results/prophages.json",
@@ -51,14 +54,14 @@ rule process_detail:
                                     if os.path.isfile(output[0]):
                                         with open(output[0], "a") as fileOutput:
                                             for ind in v.index:
-                                                fileOutput.write("> " + str(folder_name)+ " " + str(v['CDS_POSITION'][ind]) + ' ' +
+                                                fileOutput.write("> " + str(region[1]) + '_' + str(folder_name)+ " " + str(v['CDS_POSITION'][ind]) + ' ' +
                                                                  str(v['BLAST_HIT'][ind]) + "\n")
                                                 fileOutput.write(str(v['prophage_PRO_SEQ'][ind]) + "\n")
                                             fileOutput.close()
                                     else:
                                         with open(output[0],"w") as fileOutput:
                                             for ind in v.index:
-                                                fileOutput.write("> " + str(folder_name)+ " " + str(v['CDS_POSITION'][ind]) + ' ' +
+                                                fileOutput.write("> " + str(region[1]) + '_' + str(folder_name)+ " " + str(v['CDS_POSITION'][ind]) + ' ' +
                                                                  str(v['BLAST_HIT'][ind]) + "\n")
                                                 fileOutput.write(str(v['prophage_PRO_SEQ'][ind]) + "\n")
                                             fileOutput.close()

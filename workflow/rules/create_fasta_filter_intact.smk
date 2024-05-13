@@ -1,4 +1,11 @@
 from Bio import SeqIO
+from glob import glob
+import json
+import pandas as pd
+
+import warnings
+warnings.filterwarnings("ignore")
+
 rule extract_att:
     input:
         fasta_files= glob("phastest_results/GCA_*/region_DNA.txt"),
@@ -18,6 +25,7 @@ rule extract_att:
                 value[inner_key] = list(inner_value)
 
         data_for_df = []
+
         for file in input.detail_files:
             if os.path.getsize(file) == 0:
                 print(f"File '{file}' is empty (0KB).")
