@@ -36,7 +36,7 @@ cd workflow
 
 6. Run ProphAnTool: Execute ProphAnTool by running the following command:
 ```
-python prophantool.py -s Snakefile -c default_config.json
+python workflow/prophantool.py -s ./workflow/Snakefile -c default_config.json
 ```
 
 This command initiates the ProphAnTool pipeline using the specified Snakefile and configuration file. Make sure to adjust the filenames if necessary.

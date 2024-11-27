@@ -94,6 +94,7 @@ rule process_summary:
                         df_to_save.to_csv(output[0], index=True)
                     else:
                         df_to_save = pd.DataFrame([data])
+                        print(df_to_save)
                         df_to_save.to_csv(output[0])
 
         for index, row in df_to_save.iterrows():

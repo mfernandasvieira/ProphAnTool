@@ -34,8 +34,8 @@ rule all:
         f"{sys.path[0]}/../../results/abricate_summary.tab",         #abricate
         f"{sys.path[0]}/../../results/heatmap_virulence.png",        #abricate
         f"{sys.path[0]}/../../results/dataframe_args.csv",     #abricate
-        f"{sys.path[0]}/../../results/taxonomy_class/out/phagcn_prediction.csv",    #taxonomic_classification
-        f"{sys.path[0]}/../../results/taxonomy_plot.png",      #taxonomic_classification
+        f"{sys.path[0]}/../../results/final_prediction/phagcn_prediction.tsv", #taxonomic_classification
+        #f"{sys.path[0]}/../../results/taxonomy_plot.png",      #taxonomic_classification
         directory(f"{sys.path[0]}/../../results/padloc_results"),   #defense_systems
         f"{sys.path[0]}/../../results/defense_systems.png",    #defense_systems
         f"{sys.path[0]}/../../results/homology_extraction.csv",

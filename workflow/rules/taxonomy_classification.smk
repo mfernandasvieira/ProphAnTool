@@ -12,7 +12,7 @@ rule taxonomy_classification:
         contigs = f"{sys.path[0]}/../../results/fasta_filter.fasta"
 
     output:
-        f"{sys.path[0]}/../../results/taxonomy_class/out/phagcn_prediction.csv"
+        f"{sys.path[0]}/../../results/final_prediction/phagcn_prediction.tsv"
 
     conda:
         "../envs/phaGCN.yaml"
@@ -20,7 +20,7 @@ rule taxonomy_classification:
     shell:
         """
         bash ./workflow/scripts/install_requirements.sh 
-        python PhaBOX/PhaGCN_single.py --contigs {input.contigs} --rootpth results/taxonomy_class --out out/ --threads 15
+        phabox2 --task phagcn --contigs {input.contigs} --outpth {output} --out results/ --threads 15 --dbdir phabox_db_v2
         """
 
 rule taxonomy_plot:
