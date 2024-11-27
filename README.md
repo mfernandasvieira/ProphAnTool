@@ -3,6 +3,14 @@ ProphAnTool is a comprehensive tool designed for the efficient search and analys
 It automates the process, allowing users to swiftly extract insights from their genomic data. 
 This tool integrates various publicly available tools into a unified pipeline, streamlining the analysis process and providing all results in one consolidated output.
 
+## Prerequisites
+
+Before running the tool, you must obtain results from [PHASTEST](https://phastest.ca/databases).
+Follow the instructions provided on the PhasTest webtool or use the Dockerized version to generate
+the required files. Once you have the results, create a folder named `phastest_results` in the project 
+directory and place the PHASTEST output files inside this folder.
+
+
 ## Installation
 
 To install ProphAnTool, follow these steps:
