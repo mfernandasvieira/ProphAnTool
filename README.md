@@ -37,12 +37,7 @@ conda env create -f environment.yml
 conda activate prophantool
 ```
 
-5. Change Directory to Workflow: Navigate to the workflow directory.
-```
-cd workflow
-```
-
-6. Run ProphAnTool: Execute ProphAnTool by running the following command:
+5. Run ProphAnTool: Execute ProphAnTool by running the following command:
 ```
 python workflow/prophantool.py -s ./workflow/Snakefile -c default_config.json
 ```
